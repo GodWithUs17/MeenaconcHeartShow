@@ -60,16 +60,17 @@ document.getElementById('contactForm').addEventListener('submit', async function
   const formData = Object.fromEntries(new FormData(form));
 
   try {
-    const res = await fetch('http://localhost:3000/submit-form', {
+    // ✅ Use relative URL so it works on localhost & deployed
+    const res = await fetch( 'http://localhost:3000/submit-form', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
 
-    const data = await res.json();
+    const data = await response.json();
 
-    if (res.ok) {
-      showSuccessBox("box");
+    if (res.ok && data.success) {
+      showSuccessBox();
       form.reset();
     } else {
       alert('❌ ' + data.message);
@@ -85,7 +86,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
   }
 });
 
-
 function showSuccessBox() {
   const box = document.getElementById('formSuccess');
   if (!box) return;
@@ -100,13 +100,13 @@ function showSuccessBox() {
     box.classList.remove('visible');
     setTimeout(() => {
       box.style.display = 'none';
-    }, 400); // allow transition to finish
+    }, 400);
   }, 4000);
 }
 
-// Subscribe form submission
-
-
+// =======================
+// Newsletter Subscribe
+// =======================
 document.getElementById('subscribeForm').addEventListener('submit', async function (e) {
   e.preventDefault();
   const email = document.getElementById('subscriberEmail').value.trim();
@@ -130,6 +130,8 @@ document.getElementById('subscribeForm').addEventListener('submit', async functi
     const data = await res.json();
 
     if (res.ok) {
+      alertBox.textContent = '✅ Subscribed successfully!';
+      alertBox.style.color = 'green';
       alertBox.style.display = 'block';
       setTimeout(() => {
         alertBox.style.display = 'none';
@@ -149,5 +151,6 @@ document.getElementById('subscribeForm').addEventListener('submit', async functi
     btnText.textContent = 'Subscribe';
   }
 });
+
 
 
