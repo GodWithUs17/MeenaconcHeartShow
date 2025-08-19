@@ -50,13 +50,17 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: "v4", auth });
 
 // ✅ Enable CORS for any localhost/127.0.0.1 port
-app.use(
-  cors({
-    origin: [/^http:\/\/127\.0\.0\.1:\d+$/, /^http:\/\/localhost:\d+$/],
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors({
+  origin: [
+    /http:\/\/localhost:\d+$/,
+    /http:\/\/127\.0\.0\.1:\d+$/,
+    /\.onrender\.com$/,
+    'https://meenaconcheartshow.onrender.com',
+  ],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
+
 
 // ✅ Test route
 app.get("/ping", (req, res) => {

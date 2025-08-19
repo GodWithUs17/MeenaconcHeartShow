@@ -44,6 +44,8 @@ $('a[href^="#"]').on('click', function (e) {
 
 
 
+
+
 document.getElementById('contactForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
@@ -61,7 +63,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
   try {
     // ✅ Use relative URL so it works on localhost & deployed
-    const res = await fetch( 'http://localhost:3000/submit-form', {
+    const res = await fetch( 'https://meenaconcheartshow.onrender.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -121,7 +123,7 @@ document.getElementById('subscribeForm').addEventListener('submit', async functi
   btnText.textContent = 'Submitting...';
 
   try {
-    const res = await fetch('http://localhost:3000/save-email', {
+    const res = await fetch('https://meenaconcheartshow.onrender.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
