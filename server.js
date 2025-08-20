@@ -161,7 +161,7 @@ app.post("/save-email", async (req, res) => {
       valueInputOption: "USER_ENTERED",
       insertDataOption: "INSERT_ROWS",
       resource: {
-        values: [[email, new Date().toLocaleString()]],
+        values: [[email, "'" + new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })]],
       },
     });
 
