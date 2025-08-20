@@ -69,78 +69,173 @@ app.get("/ping", (req, res) => {
 
 
 
-// ✅ CONTACT FORM Submission Route
+// // ✅ CONTACT FORM Submission Route
+// app.post("/submit-form", async (req, res) => {
+//   const data = req.body;
+//   console.log("📥 Received form data:", data);
+
+//   try {
+//     // Save to local JSON file
+//     let submissions = [];
+//     if (fs.existsSync("submissions.json")) {
+//       submissions = JSON.parse(fs.readFileSync("submissions.json", "utf8"));
+//     }
+//     submissions.push(data);
+//     fs.writeFileSync("submissions.json", JSON.stringify(submissions, null, 2));
+
+//     // Google Sheets append
+//     await sheets.spreadsheets.values.append({
+//       spreadsheetId: process.env.GOOGLE_SHEET_ID,
+//       range: "Sheet1!A2:E",
+//       valueInputOption: "USER_ENTERED",
+//       insertDataOption: "INSERT_ROWS",
+//       resource: {
+//         values: [[
+//           data.fullname,
+//           data.email,
+//           data.phone,
+//           data.interest,
+//           data.message,
+//         ]],
+//       },
+//     });
+
+//     // Email notification to Admin
+//     const adminResult = await transporter.sendMail({
+//       from: process.env.EMAIL_USER,
+//       to: process.env.ADMIN_EMAIL,
+//       subject: "New Form Submission",
+//       text: `New form submission:\n
+//       \nFull Name: ${data.fullname}
+//       \nEmail: ${data.email}
+//       \nPhone: ${data.phone}
+//       \nInterest: ${data.interest}
+//       \nMessage: ${data.message}`,
+//     });
+//     console.log("✅ Admin email sent:", adminResult.response);
+
+//     // Confirmation email back to User
+//     if (data.email && data.email.includes("@")) {
+//       await transporter.sendMail({
+//         from: `"Meenaconc Team" <${process.env.EMAIL_USER}>`,
+//         to: data.email,
+//         subject: "🎉 We received your message!",
+//         html: `
+//           <div style="font-family: Arial, sans-serif; line-height:1.6; color:#333; padding:20px;">
+//             <h2 style="color:#10b981;">Hi ${data.fullname || "there"} 👋</h2>
+//             <p>Thanks for reaching out! We’ve received your message and will get back to you as soon as possible.</p>
+//             <p style="margin-top:20px;">Here’s a copy of your message:</p>
+//             <blockquote style="background:#f9f9f9; padding:10px; border-left:4px solid #10b981;">
+//               ${data.message}
+//             </blockquote>
+//             <p style="margin-top:30px;">Cheers,<br><strong>The Meenaconc Team</strong></p>
+//           </div>
+//         `,
+//       });
+//       console.log(`✅ Confirmation email sent to user: ${data.email}`);
+//     }
+
+//     return res
+//       .status(200)
+//       .json({ success: true, message: "Form submitted and saved successfully!" });
+//   } catch (error) {
+//     console.error("❌ Error in POST /submit-form:", error);
+//     res.status(500).json({ success: false, message: "Something went wrong." });
+//   }
+// });
+
+
+
 app.post("/submit-form", async (req, res) => {
   const data = req.body;
   console.log("📥 Received form data:", data);
 
   try {
-    // Save to local JSON file
-    let submissions = [];
-    if (fs.existsSync("submissions.json")) {
-      submissions = JSON.parse(fs.readFileSync("submissions.json", "utf8"));
+    // --- Save to JSON (non-blocking) ---
+    try {
+      let submissions = [];
+      if (fs.existsSync("submissions.json")) {
+        submissions = JSON.parse(fs.readFileSync("submissions.json", "utf8"));
+      }
+      submissions.push(data);
+      fs.writeFileSync("submissions.json", JSON.stringify(submissions, null, 2));
+      console.log("✅ Saved to submissions.json");
+    } catch (fileErr) {
+      console.error("⚠️ Could not write to submissions.json:", fileErr.message);
     }
-    submissions.push(data);
-    fs.writeFileSync("submissions.json", JSON.stringify(submissions, null, 2));
 
-    // Google Sheets append
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Sheet1!A2:E",
-      valueInputOption: "USER_ENTERED",
-      insertDataOption: "INSERT_ROWS",
-      resource: {
-        values: [[
-          data.fullname,
-          data.email,
-          data.phone,
-          data.interest,
-          data.message,
-        ]],
-      },
-    });
+    // --- Google Sheets (non-blocking) ---
+    try {
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+        range: "Sheet1!A2:E",
+        valueInputOption: "USER_ENTERED",
+        insertDataOption: "INSERT_ROWS",
+        resource: {
+          values: [[
+            data.fullname,
+            data.email,
+            data.phone,
+            data.interest,
+            data.message,
+          ]],
+        },
+      });
+      console.log("✅ Data appended to Google Sheets");
+    } catch (sheetsErr) {
+      console.error("⚠️ Google Sheets error:", sheetsErr.message);
+    }
 
-    // Email notification to Admin
-    const adminResult = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.ADMIN_EMAIL,
-      subject: "New Form Submission",
-      text: `New form submission:\n
-      \nFull Name: ${data.fullname}
-      \nEmail: ${data.email}
-      \nPhone: ${data.phone}
-      \nInterest: ${data.interest}
-      \nMessage: ${data.message}`,
-    });
-    console.log("✅ Admin email sent:", adminResult.response);
-
-    // Confirmation email back to User
-    if (data.email && data.email.includes("@")) {
-      await transporter.sendMail({
-        from: `"Meenaconc Team" <${process.env.EMAIL_USER}>`,
-        to: data.email,
-        subject: "🎉 We received your message!",
-        html: `
-          <div style="font-family: Arial, sans-serif; line-height:1.6; color:#333; padding:20px;">
-            <h2 style="color:#10b981;">Hi ${data.fullname || "there"} 👋</h2>
-            <p>Thanks for reaching out! We’ve received your message and will get back to you as soon as possible.</p>
-            <p style="margin-top:20px;">Here’s a copy of your message:</p>
-            <blockquote style="background:#f9f9f9; padding:10px; border-left:4px solid #10b981;">
-              ${data.message}
-            </blockquote>
-            <p style="margin-top:30px;">Cheers,<br><strong>The Meenaconc Team</strong></p>
-          </div>
+    // --- Email Admin (non-blocking) ---
+    try {
+      const adminResult = await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: process.env.ADMIN_EMAIL,
+        subject: "New Form Submission",
+        text: `
+        Full Name: ${data.fullname}
+        Email: ${data.email}
+        Phone: ${data.phone}
+        Interest: ${data.interest}
+        Message: ${data.message}
         `,
       });
-      console.log(`✅ Confirmation email sent to user: ${data.email}`);
+      console.log("✅ Admin email sent:", adminResult.response);
+    } catch (adminErr) {
+      console.error("⚠️ Admin email error:", adminErr.message);
     }
 
-    return res.json({ success: true, message: "Form submitted and saved successfully!" });
+    // --- Confirmation to User (non-blocking) ---
+    if (data.email && data.email.includes("@")) {
+      try {
+        await transporter.sendMail({
+          from: `"Meenaconc Team" <${process.env.EMAIL_USER}>`,
+          to: data.email,
+          subject: "🎉 We received your message!",
+          html: `
+            <div style="font-family: Arial, sans-serif;">
+              <h2 style="color:#10b981;">Hi ${data.fullname || "there"} 👋</h2>
+              <p>Thanks for reaching out! We’ve received your message.</p>
+              <blockquote>${data.message}</blockquote>
+              <p>Cheers,<br><strong>The Meenaconc Team</strong></p>
+            </div>
+          `,
+        });
+        console.log(`✅ Confirmation email sent to ${data.email}`);
+      } catch (userErr) {
+        console.error("⚠️ User email error:", userErr.message);
+      }
+    }
+
+    // --- Always respond success ---
+    return res.json({ success: true, message: "Form received successfully!" });
+
   } catch (error) {
-    console.error("❌ Error in POST /submit-form:", error);
-    res.status(500).json({ success: false, message: "Something went wrong." });
+    console.error("❌ Route error:", error);
+    return res.status(500).json({ success: false, message: "Server error." });
   }
 });
+
 
 // ✅ NEWSLETTER EMAIL SUBMISSION Route
 app.post("/save-email", async (req, res) => {
