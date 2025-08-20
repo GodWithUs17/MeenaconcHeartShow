@@ -63,7 +63,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
   try {
     // ✅ Use relative URL so it works on localhost & deployed
-    const res = await fetch( 'https://meenaconcheartshow.onrender.com', {
+    const res = await fetch( 'https://meenaconcheartshow.onrender.com/submit-form', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -123,7 +123,7 @@ document.getElementById('subscribeForm').addEventListener('submit', async functi
   btnText.textContent = 'Submitting...';
 
   try {
-    const res = await fetch('https://meenaconcheartshow.onrender.com', {
+    const res = await fetch('https://meenaconcheartshow.onrender.com/save-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
