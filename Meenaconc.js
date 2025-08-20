@@ -62,20 +62,21 @@ document.getElementById('contactForm').addEventListener('submit', async function
   const formData = Object.fromEntries(new FormData(form));
 
   try {
-    // ✅ Use relative URL so it works on localhost & deployed
-    const res = await fetch( 'https://meenaconcheartshow.onrender.com/submit-form', {
+    // ✅ Use absolute backend URL
+    const res = await fetch('https://meenaconcheartshow.onrender.com/submit-form', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
 
-    const data = await response.json();
+    // ✅ Fix: use `res` instead of `response`
+    const data = await res.json();
 
     if (res.ok && data.success) {
       showSuccessBox();
       form.reset();
     } else {
-      alert('❌ ' + data.message);
+      alert('❌ ' + (data.message || 'Something went wrong.'));
     }
   } catch (err) {
     console.error('Submission error:', err);
