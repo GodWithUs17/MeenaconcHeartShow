@@ -135,9 +135,7 @@ app.post("/submit-form", async (req, res) => {
       console.log(`✅ Confirmation email sent to user: ${data.email}`);
     }
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Form submitted and saved successfully!" });
+    return res.json({ success: true, message: "Form submitted and saved successfully!" });
   } catch (error) {
     console.error("❌ Error in POST /submit-form:", error);
     res.status(500).json({ success: false, message: "Something went wrong." });
