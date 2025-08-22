@@ -43,6 +43,65 @@ $('a[href^="#"]').on('click', function (e) {
 
 
 
+const hero_Btn = document.getElementById('pink');
+
+  hero_Btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    const link = this.getAttribute('data-url'); // Get href
+
+    this.classList.add('clicked');
+
+        setTimeout(() => {
+      window.location.href=link; // Navigate after animation
+    }, 300); // Match animation duration
+
+  });
+
+
+const hero_Btn1 = document.getElementById('dark');
+
+  hero_Btn1.addEventListener('click', function (e) {
+    e.preventDefault();
+    const link = this.getAttribute('data-url'); // Get href
+
+    this.classList.add('clicked');
+
+        setTimeout(() => {
+    document.getElementById('contact').scrollIntoView({
+      behavior: 'smooth'
+    });
+  }, 300);
+
+  });
+
+
+//   git init
+// git add .
+// git commit -m "Initial commit"
+
+
+
+
+
+
+const buttons = document.getElementsByClassName('btn-card');
+
+for (let i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', function (e) {
+    e.preventDefault();
+    const link = this.getAttribute('href'); // Get href
+
+    this.classList.add('clicked');
+
+        setTimeout(() => {
+      window.location.href = link; // Navigate after animation
+    }, 300); // Match animation duration
+
+  });
+}
+
+
+
 
 
 
