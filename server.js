@@ -49,19 +49,18 @@ const auth = new google.auth.GoogleAuth({
 });
 const sheets = google.sheets({ version: "v4", auth });
 
-// ✅ Enable CORS for any localhost/127.0.0.1 port
+// ✅ Enable CORS for localhost, Render, and GitHub Pages
 app.use(cors({
   origin: [
-    /http:\/\/localhost:\d+/,
-    /http:1270̇0̇1̇:+̣/,
-    /\.onrender\.com$/,
+    /http:\/\/localhost:\d+$/,          // any localhost port
+    /http:\/\/127\.0\.0\.1:\d+$/,       // any 127.0.0.1 port
+    /\.onrender\.com$/,                 // Render domains
     'https://meenaconcheartshow.onrender.com',
-    'https://godwithus17.github.io/MeenaconcHeartShow/', // replace with your actual GitHub Pages URL
+    'https://godwithus17.github.io'     // GitHub Pages domain
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
-
 
 
 // ✅ Test route
