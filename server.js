@@ -52,14 +52,16 @@ const sheets = google.sheets({ version: "v4", auth });
 // ✅ Enable CORS for any localhost/127.0.0.1 port
 app.use(cors({
   origin: [
-    /http:\/\/localhost:\d+$/,
-    /http:\/\/127\.0\.0\.1:\d+$/,
+    /http:\/\/localhost:\d+/,
+    /http:1270̇0̇1̇:+̣/,
     /\.onrender\.com$/,
     'https://meenaconcheartshow.onrender.com',
+    'https://godwithus17.github.io/MeenaconcHeartShow/', // replace with your actual GitHub Pages URL
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
+
 
 
 // ✅ Test route
