@@ -153,7 +153,7 @@ nav a:hover {
       max-width: 1200px;
       margin: auto;
       background-color:  rgb(254,241,244);
-    }
+/* Removed stray closing curly brace to fix CSS error */
 
     .about-section h2 {
       text-align: center;
@@ -163,16 +163,20 @@ nav a:hover {
       margin-bottom: 15px;
     }
 
-    .about-section span {
-      color: #e11d48;
-    }
-
-    .about-section p.subtitle {
-      text-align: center;
-      font-size: 20px;
-      font-weight: 400;
-      margin-bottom: 40px;
-      color: #545a64;
+      /* Ensure subscribe form is full width and aligned */
+      #subscribeForm {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      #subscribeForm input[type="email"], #subscribeForm button {
+        width: 100%;
+        margin-left: 0;
+        box-sizing: border-box;
+      }
     }
 
     .about-content {
@@ -929,7 +933,12 @@ button {
 
 .footer-bottom p{
    margin-top: 1rem;
+   font-size: 0.8rem;
 }
+
+
+
+
 
 
 /* =========================
@@ -1115,13 +1124,13 @@ button {
   }
 
   .footer-col-2 p, .footer-col-2 input[type="email"] {
-    width: 60%;
+    width: 100%;
     margin-top: 10px;
-    text-align: start;
+    /* text-align: start; */
   }
 
   .footer-col-2 button {
-    width: 60%;
+    width: 100%;
     margin-top: 5px;
   }
 }
@@ -1172,10 +1181,11 @@ button {
   .about-section h2, 
   #event h2, 
   #get {
-    font-size: 36px;
+    font-size: 24px;
   }
-  .about-section p.subtitle, #event p {
-    font-size: 18px;
+  .about-section p.subtitle, #event p, .contact-section p{
+    font-size: 13px;
+    padding: 0 20px;
   }
   #event p{
     padding: 0 20px;
@@ -1189,6 +1199,13 @@ button {
     padding-top: 10px;
     padding-bottom: 10px;
   }
+
+  .footer-bottom p{
+   font-size: 0.4rem;
+   padding: 0 30px;
+  }
+
+
 }
 
 @media (min-width: 344px) and (max-width: 740px) {
@@ -1215,7 +1232,7 @@ button {
 
 @media (min-width: 540px) and (max-width: 720px) {
    .hero {
-      padding-top: 120px; 
+      padding-top: 120px;
     }
 
   .overlay h1 {
