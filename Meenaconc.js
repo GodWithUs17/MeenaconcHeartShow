@@ -43,36 +43,41 @@ $('a[href^="#"]').on('click', function (e) {
 
 
 
-const hero_Btn = document.getElementById('pink');
+document.addEventListener('DOMContentLoaded', () => {
+  const hero_Btn = document.getElementById('pink');
+  if (!hero_Btn) return; // safety check
 
   hero_Btn.addEventListener('click', function (e) {
     e.preventDefault();
-    const link = this.getAttribute('data-url'); // Get href
+    const link = this.getAttribute('data-url'); 
 
     this.classList.add('clicked');
 
-        setTimeout(() => {
-      window.location.href=link; // Navigate after animation
-    }, 300); // Match animation duration
-
+    setTimeout(() => {
+      window.location.href = link;
+    }, 300);
   });
+});
 
 
-const hero_Btn1 = document.getElementById('dark');
+document.addEventListener('DOMContentLoaded', () => {
+  const hero_Btn1 = document.getElementById('dark');
+  if (!hero_Btn1) return; // prevent errors if button not found
 
   hero_Btn1.addEventListener('click', function (e) {
     e.preventDefault();
-    const link = this.getAttribute('data-url'); // Get href
 
     this.classList.add('clicked');
 
-        setTimeout(() => {
-    document.getElementById('contact').scrollIntoView({
-      behavior: 'smooth'
-    });
-  }, 300);
-
+    setTimeout(() => {
+      const contact = document.getElementById('contact');
+      if (contact) {
+        contact.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
   });
+});
+
 
 
 //   git init
@@ -84,21 +89,22 @@ const hero_Btn1 = document.getElementById('dark');
 
 
 
-const buttons = document.getElementsByClassName('btn-card');
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.getElementsByClassName('btn-card');
 
-for (let i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener('click', function (e) {
-    e.preventDefault();
-    const link = this.getAttribute('href'); // Get href
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', function (e) {
+      e.preventDefault();
+      const link = this.getAttribute('href'); // Get href
 
-    this.classList.add('clicked');
+      this.classList.add('clicked');
 
-        setTimeout(() => {
-      window.location.href = link; // Navigate after animation
-    }, 300); // Match animation duration
-
-  });
-}
+      setTimeout(() => {
+        window.location.href = link; // Navigate after animation
+      }, 300); // Match animation duration
+    });
+  }
+});
 
 
 
