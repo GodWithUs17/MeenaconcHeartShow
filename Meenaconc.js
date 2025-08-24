@@ -17,29 +17,50 @@ navLinks.forEach(link => {
   });
 });
 
+// Smooth scroll function
 
+ function smoothScrollTo(targetY, duration = 500) {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const startTime = performance.now();
 
-// Scroll to contact section when button is clicked
-$(document).ready(function () {
-  $('.scrollToContact').on('click', function (e) {
-    e.preventDefault();
-    $('html, body').animate({
-      scrollTop: $('.contact-section').offset().top
-    }, 500);
-  });
-});
+    function scrollStep(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * progress);
 
-// Smooth scroll for anchor links
-$('a[href^="#"]').on('click', function (e) {
-  e.preventDefault();
-  var href = $(this).attr('href');
-  var target = $(href);
-  if (target.length) {
-    $('html, body').animate({
-      scrollTop: target.offset().top
-    }, 'slow');
+      if (progress < 1) {
+        requestAnimationFrame(scrollStep);
+      }
+    }
+
+    requestAnimationFrame(scrollStep);
   }
-});
+
+  // Scroll to .contact-section on button click
+  document.querySelectorAll('.scrollToContact').forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector('.contact-section');
+      if (target) {
+        const targetY = target.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(targetY, 600); // 600ms duration
+      }
+    });
+  });
+
+  // Smooth scroll for all anchor links starting with #
+  document.querySelectorAll('a[href^="#"]:not(.scrollToContact)').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        const targetY = target.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(targetY, 600); // 600ms duration
+      }
+    });
+  });
+
 
 
 
