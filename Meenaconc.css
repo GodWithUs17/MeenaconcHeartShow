@@ -1068,18 +1068,35 @@ button {
   .stats {
     flex-direction: column;
     align-items: center;
-    visibility: hidden;
+    margin-bottom: 3rem;
+    /* visibility: hidden; */
   }
 
   .stats div {
     width: 90%;
-    max-width: 300px;
+    max-width: 200px;
+    box-sizing: border-box;
+    font-size: 0.7rem;
   }
 
   /* About Section */
   .about-content {
     flex-direction: column;
+    text-align: justify;
+  }
+
+  .mission-text h3 {
     text-align: center;
+  }
+
+  .mission-text span{
+    color: #d63384;
+  }
+
+  .mission-text p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .mission-text, .founder-card {
