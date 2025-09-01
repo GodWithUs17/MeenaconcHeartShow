@@ -9,6 +9,7 @@ process.on("unhandledRejection", (reason) =>
 
 require("dotenv").config();
 const express = require("express");
+const compression = require("compression");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const fs = require("fs");
@@ -17,6 +18,8 @@ const { google } = require("googleapis");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(compression());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
