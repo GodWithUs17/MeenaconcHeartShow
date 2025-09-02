@@ -101,13 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-//   git init
-// git add .
-// git commit -m "Initial commit"
-
-
-
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
