@@ -1279,7 +1279,7 @@ button {
 @media (min-width: 360px) and (max-width: 667px) {
    .overlay h1{
     padding-top: 200px;
-    font-size: 25px;
+    font-size: 30px;
    }
     .overlay{
       padding: 0 3rem;
@@ -1306,6 +1306,18 @@ button {
     .stats div p{
       font-size: 15px;
     }
+}
+
+@media(min-width: 375px) and (max-width: 667px) {
+   .hero {
+      box-sizing: border-box;
+    }
+
+  .overlay h1 {
+    padding-top: 220px; /* Adjust as needed */
+    font-size: 25px;
+  }
+
 }
 
 @media (min-width:412px) and (max-width: 768px) {
